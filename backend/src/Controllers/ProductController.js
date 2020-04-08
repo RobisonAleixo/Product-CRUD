@@ -1,13 +1,20 @@
+const connection = require('../database/connection');
+
 module.exports = {
 
   async index(req, res) {  
-
-    return res.json({'product': 'oi'});
+    const products = await connection('products').select('*');
+    return res.json(products);
   },
 
   async create(req, res) {
     const { product, value, description } = req.body;
-    console.log(product);
+    
+    await connection('products').insert({
+      product,
+      value,
+      description
+    });
 
     return res.json({});
   }
